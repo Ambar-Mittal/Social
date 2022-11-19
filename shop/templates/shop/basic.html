@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdn.tailwindcss.com"></script>
+
+    
+    <style>
+        {% block css %}
+
+            {% endblock %}
+    </style>
+</head>
+
+<body>
+
+    <header class="text-gray-900 body-font bg-gray-900 ">
+        <div class="relative mx-auto items-center relative px-4 py-2 flex justify-between ">
+
+            
+            <a href="/"><span
+                    class=" ml-3 text-2xl title-font font-medium  text-white lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6 lg:ml-6 md:ml-6 ">Social.com</span></a>
+
+            {% if user.is_authenticated %}
+            <nav
+                class="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6 md:flex md:mx-auto md:flex md:items-center md:w-auto md:space-x-6 md:mr-auto md:ml-4 md:py-1 md:pl-4  flex flex-wrap items-center text-base justify-center">
+                <a class="mr-5 hover:text-yellow-900 text-pink-100 text-lg font-medium tracking-wider"
+                    href="/shop">Home</a>
+                <a class="mr-5 hover:text-yellow-900 text-pink-100 text-lg font-medium tracking-wider"
+                    href="/shop/about">About Us</a>
+                <a class="mr-5 hover:text-yellow-900 text-pink-100 text-lg font-medium tracking-wider"
+                    href="/shop/contact">Contact Us</a>
+                <a class="mr-5 hover:text-yellow-900 text-pink-100 text-lg font-medium tracking-wider"
+                    href="/shop/tracker">Tracker</a>
+
+            </nav>
+
+            <div class="navbar-menu relative z-50 hidden">
+                <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+                <nav
+                    class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+                    <div class="flex items-center mb-8">
+                        <p class="mr-auto text-3xl font-medium leading-none">
+                            Social
+                        </p>
+                        <button class="navbar-close">
+                            <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop">Home</a>
+                            </li>
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop/about">About Us</a>
+                            </li>
+
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop/contact">Contact Us</a>
+                            </li>
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop/tracker">Tracker</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <input type="search" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                        <button class="btn inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                              <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+                            </svg>
+                          </button>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="pt-6">
+                            <a class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl"
+                                href="/shop/logout">Logout</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <form  class="form-inline" method='get' action='/shop/search/'>
+                <input type="search" class="form-control inline-flex items-center bg-gray-100 border-0 py-2 px-3 focus:outline-none hover:bg-gray-200 rounded-sm text-base md:mt-0 text-sm font-medium " placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name='search' id='search'>
+
+                <button class="btn inline-flex items-center bg-gray-100 border-0 py-2 px-3 focus:outline-none hover:bg-gray-200 rounded mx-2text-base md:mt-0 text-sm font-medium mr-2.5" type="submit" id="button-addon2">
+                   Search
+                    </button>
+            </form>
+
+            <button type="button" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" 
+                    class="inline-flex items-center bg-gray-100 border-0 py-2 px-4 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0 text-sm font-medium">Cart(<span id="cart">0</span>)
+                </button>
+
+            <a href="/shop/logout"> <button type="button"
+                    class="inline-flex items-center bg-gray-100 border-0 py-2 px-4 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0 text-sm ml-4 font-medium">Logout
+                </button></a>
+
+            {% else %}
+            <nav
+                class="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6 md:flex md:mx-auto md:flex md:items-center md:w-auto md:space-x-6 md:mr-auto md:ml-4 md:py-1 md:pl-4  flex flex-wrap items-center text-base justify-center">
+                <a class="mr-5 hover:text-yellow-900 text-pink-100  font-medium text-lg" href="/shop">Home</a>
+                <a class="mr-5 hover:text-yellow-900 text-pink-100 font-medium text-lg" href="/shop/about">About Us</a>
+                <a class="mr-5 hover:text-yellow-900 text-pink-100 font-medium text-lg" href="/shop/contact">Contact Us</a>
+
+            </nav>
+
+            <div class="navbar-menu relative z-50 hidden">
+                <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+                <nav
+                    class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+                    <div class="flex items-center mb-8">
+                        <p class="mr-auto text-3xl font-medium leading-none">
+                            Social
+                        </p>
+                        <button class="navbar-close">
+                            <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop">Home</a>
+                            </li>
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop/about">About Us</a>
+                            </li>
+
+                            <li class="mb-1">
+                                <a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                                    href="/shop/contact">Contact Us</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <form  class="form-inline" method='get' action='/shop/search/'>
+                <input type="search" class="form-control inline-flex items-center bg-gray-100 border-0 py-2 px-3 focus:outline-none hover:bg-gray-200 rounded-sm text-base md:mt-0 text-sm font-medium " placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name='search' id='search'>
+
+                <button class="btn inline-flex items-center bg-gray-100 border-0 py-2 px-3 focus:outline-none hover:bg-gray-200 rounded mx-2text-base md:mt-0 text-sm font-medium" type="submit" id="button-addon2">
+                   Search
+                </button>
+            </form>
+
+            <a href="/shop/login"> <button
+                    class="inline-flex items-center bg-gray-100 border-0 py-2 px-3 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0 ml-4 text-sm font-medium">Login
+
+                </button></a>
+            <a href="/shop/signup"> <button type="button"
+                    class="inline-flex items-center bg-gray-100 border-0 py-2 px-3 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0 text-sm ml-4 font-medium">Signup
+                </button></a>
+
+            {% endif %}
+            <div class="md:hidden">
+                <button class="navbar-burger flex items-center text-blue-600 p-3">
+                    <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <title>Mobile menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    {% block body %} {% endblock %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    {% block js %}
+    <script>
+        console.log("working")
+        if (localStorage.getItem('cart') == null) {
+            var cart = {};
+        }
+
+        else {
+            cart = JSON.parse(localStorage.getItem('cart'))
+            document.getElementById('cart').innerHTML = Object.keys(cart).length;
+            updateCart(cart);
+
+        }
+
+        $('.cart').click(function () {
+            console.log('clicked');
+            var idstr = this.id.toString();
+            console.log(idstr);
+            if (cart[idstr] != undefined) {
+                cart[idstr] = cart[idstr] + 1;
+            }
+            else {
+                cart[idstr] = 1;
+            }
+            console.log(cart);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cart').innerHTML = Object.keys(cart).length;
+        });
+        $('#popcart').popover();
+        function updateCart(cart) {
+            for (var item in cart) {
+                document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cart').innerHTML = Object.keys(cart).length;
+            console.log(cart);
+        }
+    </script>
+    {% endblock %}
+</body>
+
+</html>

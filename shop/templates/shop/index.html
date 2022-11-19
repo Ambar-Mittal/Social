@@ -1,0 +1,139 @@
+{% extends 'shop/basic.html' %}
+{% block css %}
+
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<section class="text-gray-600 body-font">
+  
+  <div class="container px-5 py-14 mx-auto">
+    {% for product, range , nSlides in allProds %}
+    <h2 class="text-gray-900 title-font text-2xl font-semibold ml-11 my-3.5" id="namepr{{i.id}}">{{product.0.category}} Recommended Items</h2>
+    <div class="flex flex-wrap mx-10">
+      {% for i in product %}
+      <div class=" md:w-1/2 p-4 w-full border-2 mx-1 my-1" style="width:21rem;">
+        <a class="block relative h-48 rounded overflow-hidden">
+          <img alt="ecommerce" class="object-contain object-center w-full h-full block" src='/media/{{i.image}}'  >
+        </a>
+        <div class="mt-4">
+          {% comment %} <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3> {% endcomment %}
+          <h2 class="text-gray-900 title-font text-lg font-medium" id="namepr{{i.id}}">{{i.product_name}}</h2>
+          <p class="text-gray-900 text-base my-3 font-semibold">₹<span id="pricepr{{i.id}}">{{i.price}}</span></p>
+  <div class="flex flex-row justify-between">
+        <span id="divpr{{i.id}}" class="divpr">
+              <button type="button" id="pr{{i.id}}" class="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6 md:flex md:mx-auto lg:ml-1 md:ml-1 basis-1/2 md:mr-12 md:flex md:items-center md:w-auto md:space-x-6 inline-flex items-center bg-sky-600 border-0 py-2 px-4 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-sm font-medium cart text-white transition-colors duration-300 ease-in-out" data-json="pr{{i.id}}">Add to Cart</button>
+            </span>
+        
+        <a href="/shop/products/{{i.id}}"> <button type="button" id="qv{{i.id}}"
+          class="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6 md:flex md:mx-auto basis-1/2 md:ml-14 md:flex md:items-center md:w-auto md:space-x-6 inline-flex items-center bg-sky-600 border-0 py-2 px-4 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-white text-sm font-medium cart transition-colors duration-300 ease-in-out">View
+      </button></a>
+    </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+
+  // Find out the cart from localStorage
+  console.log("working")
+  if (localStorage.getItem('cart') == null) {
+    var cart = {};  
+  }
+
+  else {
+    cart = JSON.parse(localStorage.getItem('cart'))
+    updateCart(cart);
+  }
+
+  // To hide Add to cart button on NO Login
+  // var data=document.getElementsByClassName('divpr');
+  // data.style.visibility='hidden';
+  // console.log('hmmmmmmm',data)
+    // document.getElementById('div' + {{i.id}}).style.visibility='hidden';
+
+
+  // If the Add to Cart button is clicked, add the item
+
+
+  $('.divpr').on('click', 'button.cart', function () {
+    var idstr = this.id.toString();
+    if (cart[idstr] != undefined) {
+      qty = cart[idstr][0] + 1;
+    } else {
+      qty = 1;
+      name = document.getElementById('name' + idstr).innerHTML
+      price = document.getElementById('price' + idstr).innerHTML
+      cart[idstr] = [qty, name, parseInt(price)];
+    }
+    updateCart(cart);
+  });
+
+
+  // Add popover to Cart
+  $('#popcart').popover();
+  updatePopover(cart);
+  function updatePopover(cart) {
+    console.log('We are inside updatePopover');
+    var popStr = "";
+    popStr = popStr + "<h5 class='text-center my-2'>Cart</h5><div class='mx-2 my-2'>";
+    var i = 1;
+    for (var item in cart) {
+      popStr = popStr + "<b>" + i + "</b>. ";
+      popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+      i = i + 1;
+    }
+    popStr = popStr + "</div> <a href='/shop/checkout/'><button class='inline-flex items-center bg-gray-100 border-0  py-1.5 px-3.5 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-sm ml-4 font-medium bg-sky-600 text-white mr-4 transition-colors duration-300 ease-in-out' id='checkout'>Checkout</button></a> <button class='inline-flex items-center bg-gray-100 border-0 py-1.5 px-3.5 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-sm ml-4 font-medium bg-sky-600 text-white mr-4 transition-colors duration-300 ease-in-out' id='clearCart' onclick='clearCart()' >Clear Cart</button> "
+    console.log("popstr it is:",popStr);
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+  }
+
+  // Function to Clear Cart
+  function clearCart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    for (var item in cart) {
+      document.getElementById('div' + item).innerHTML = '<button id="' + item + '" class="hidden lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6 md:flex md:mx-auto lg:ml-1 md:ml-1 lg:mr-12 md:mr-12 md:flex md:items-center md:w-auto md:space-x-6 inline-flex items-center bg-sky-600 border-0 py-2 px-4 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-sm font-medium cart text-white">Add to Cart</button>'
+    }
+    localStorage.clear();
+    cart = {};
+    updateCart(cart)
+  }
+
+  // Function to Update Cart
+  function updateCart(cart) {
+    var sum = 0
+    for (var item in cart) {
+      sum = sum + cart[item][0];
+      console.log("hmmmmm",document.getElementById('div' + item).innerHTML)
+      document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='inline-flex items-center bg-gray-100 border-0  py-1.5 px-3.5 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-sm mr-1 font-medium bg-sky-600 text-white minus transition-colors duration-300 ease-in-out'>-</button> <span id='val" + item + "' class='text-sm font-medium'>" + cart[item][0] + "</span> <button id='plus" + item + "' class='inline-flex items-center bg-gray-100 border-0 py-1.5 px-3.5 focus:outline-none hover:bg-cyan-500 rounded text-base md:mt-0 text-sm font-medium bg-sky-600 ml-1 text-white  plus transition-colors duration-300 ease-in-out'> + </button>";
+    }
+    console.log(cart)
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = sum;
+    updatePopover(cart);
+  }
+
+  $('.divpr').on("click", "button.minus", function () {
+
+    a = this.id.slice(7,);
+    cart['pr' + a][0] = cart['pr' + a][0] - 1
+    cart['pr' + a][0] = Math.max(0, cart['pr' + a][0])
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    updateCart(cart)
+  });
+  $('.divpr').on("click", "button.plus", function () {
+    a = this.id.slice(6,);
+    cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    updateCart(cart)
+  });
+
+</script>
+{% endblock %}

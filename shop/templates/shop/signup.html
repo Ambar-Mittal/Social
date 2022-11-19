@@ -1,0 +1,172 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Signup {% endblock %}
+{% load static %}
+{% block css %}
+/* Styling for form */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            
+            transition: all .2s linear;
+        }
+        
+        .form-container {
+            min-height: 90vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url({% static 'shop/bg-back.jpg' %}) no-repeat;
+            background-size: cover;
+            background-position: center;
+            perspective: 1000px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .form-container form {
+            height: 30rem;
+            width: 350px;
+            background: rgba(255, 255, 255, .1);
+            text-align: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+        }
+
+        .form-container form h3 {
+            font-size: 30px;
+            padding: 0.85rem 0;
+            color: #ccc;
+            letter-spacing: 3px;
+        }
+
+        .form-container form i {
+            padding: 0.5px;
+            font-size: 20px;
+            color: #bbb;
+        }
+
+        .form-container form input {
+            outline: none;
+            border: none;
+            height: 40px;
+            width: 82%;
+            background: rgba(0, 0, 0, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 5px rgba(0, 0, 0, .5) inset;
+            font-size: 17px;
+            padding: 0 10px;
+            margin: 0.75rem 0;
+            letter-spacing: 1px;
+            border-radius: 15px;
+        }
+
+        .form-container form input[type="submit"] {
+            width: 90%;
+            cursor: pointer;
+            background: linear-gradient(90deg, deeppink, blueviolet);
+            margin-top: 30px;
+            border-radius: 50px;
+        }
+
+        .form-container form input[type="submit"]:hover {
+            letter-spacing: 4px;
+        }
+
+        .container-x {
+            display: block;
+        }
+
+        .icon {
+            margin-right: 8px;
+        }
+        <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
+
+
+{% block body %}
+{% for message in messages %}
+
+
+<div class="" id="alertbox">
+		<div class="flex justify-between items-center bg-{{ message.tags }}-200 relative text-{{ message.tags }}-600 py-3 px-3" role="alert">
+			
+			<span class="font-semibold text-{{message.tags}}-700">{{message}}</span>
+
+			<span class="absolute top-0 bottom-0 right-0 px-4 py-3 closealertbutton">
+				<svg class="fill-current h-6 w-6 text-white" role="button" xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 20 20">
+					<title>Close</title>
+					<path
+						d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+				</svg>
+			</span>
+		</div>
+	</div>
+{% endfor %}
+    <div class="form-container">
+        <form action="" id="form" method="POST" > {% csrf_token %}
+            <h3>Create Account</h3>
+            <class class="container-x">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <input type="text" placeholder="Username(alphanumeric)" name="username" required >
+            </class>
+            
+            <div class="container-x">
+                <span class="icon"> <i class="fas fa-user"></i></span>
+                <input type="name" placeholder="First Name" name="fname" required>
+            </div>
+
+            <div class="container-x">
+                <span class="icon"> <i class="fas fa-user"></i></span>
+                <input type="name" placeholder="Last Name" name="lname" required >
+            </div>
+
+            <div class="container-x">
+                <span class="icon"> <i class="fas fa-at"></i></span>
+                <input type="email" placeholder="Email" name="email" required >
+            </div>
+
+            <div class="container-x">
+                <span class="icon"><i class="fas fa-lock"></i></span>
+                <input type="password" placeholder="Password" name="password1" required >
+            </div>
+
+            <div class="container-x">
+                <span class="icon"><i class="fas fa-lock"></i></span>
+                <input type="password" placeholder=" Confirm password" name="password2" required >
+            </div>
+            <input type="submit" value="Signup" >
+        </form>
+    </div>
+    {% endblock %}   
+{% block js %}
+    <script>
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[1].placeholder = 'Username';
+        form_fields[2].placeholder = 'First Name';
+        form_fields[3].placeholder = 'Last Name';
+        form_fields[4].placeholder = 'Email';
+        form_fields[5].placeholder = 'Password';
+        form_fields[6].placeholder = 'Confirm Password';
+
+        var form = document.getElementById('form'); 
+        form.addEventListener('mousemove', (e) =>{ 
+        
+        var x = (window.innerWidth / 2 - e.pageX) / 12;  ; 
+        var y = (window.innerHeight / 2 - e.pageY) / 12;
+        form.style.transform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg)';
+        
+        }); 
+        
+        form.addEventListener('mouseleave', function(){
+        form.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        
+        });
+    </script>
+{% endblock %}

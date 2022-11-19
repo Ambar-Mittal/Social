@@ -1,0 +1,125 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Checkout {% endblock %}
+{% block body %}
+<div>
+    <div class="">
+        <h1 class="px-40 py-6 text-3xl font-semibold ">Review Your Cart Items</h1>
+        <div class="bg-white rounded-md shadow-lg px-2 py-2 mx-40 border-2 border-black w-auto " id="box">
+            <ul class="divide-y-2 divide-gray-400" id="items">
+
+            </ul>
+            
+        </div>
+        <div class="py-3 px-4 mx-40 my-5 rounded-md bg-gray-200  border-opacity-10 w-auto h-12 tracking-wide" id="price"> 
+            <li class="list-none active" aria-current="page">Your Cart Total Is <b>Rs.<span id="totalPrice"></b>  </span>Enter your details below & place your order. Thanks for using <b>Social</b>!</li>
+        </div>
+    </div>
+    <hr class="mx-36">
+    <div id="details">
+        <h2 class="px-40 py-3 text-3xl font-semibold"> Enter Address & Other Details:</h2>
+        <form method="POST" action="/shop/checkout/">{% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemsJson">
+        <div class="grid gap-3 mb-6 md:grid-cols-2 mx-40">
+            <div>
+                <label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputname">
+                    Name
+                  </label>
+                  <input class="border-2 rounded-md w-full  py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" name="name" placeholder="Name" required>
+                </div> 
+                <div class="form-group"><label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputEmail4">
+                Email
+              </label>
+              <input class="border-2 rounded-md w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+            
+            </div></div>        
+            <div class="mx-40 form-group">
+                <label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputAddress">
+                    Address 1
+                  </label>
+                  <input class="border-2 rounded-md w-full  py-2 px-2 mb-5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St" required>
+                </div>
+                <div class="mx-40">
+                    <label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputAddress2">
+                        Address 2
+                      </label>
+                      <input class="border-2 rounded-md w-full  py-2 px-2 mb- 5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" class="form-control" id="address2" name="address2"
+                      placeholder="Apartment, studio, or floor" >
+                    </div>
+                    <div class="flex flex-row gap-6 mt-6 mb-2 mx-40">
+                        <div>
+                            <label class="block text-gray-900 text-1xl font-semibold mb-2" for="inputCity">
+                                City
+                              </label>
+                              <input class="border-2 rounded-md w-96  py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline basis-1/3" type="text" class="form-control" id="city" name="city" placeholder="Enter City" required>
+                            </div> 
+                            <div><label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputState">
+                            State
+                          </label>
+                          <input class="border-2 rounded-md w-96 py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline basis-1/3" type="text" class="form-control" id="state" name="state" placeholder="Enter State" required>
+                        </div>
+                            <div><label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputZip">
+                            Zipcode
+                          </label>
+                          <input class="border-2 rounded-md w-96 py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline basis-1/3" type="number" class="form-control" id="state" name="zip" placeholder="Enter Zipcode" required>
+                        </div>
+                        </div>
+                        <div class="mx-40 mt-5">
+                            <label class="block text-gray-900 text-1xl font-semibold mb-2 " for="inputPhone">
+                                Phone Number    
+                              </label>
+                              <input class="border-2 rounded-md w-full  py-2 px-2 mb- 5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Contact Number" required>
+                            </div>        
+                        <div class="flex items-center justify-between">
+                            <button class=" mx-40 my-5 justify-self-auto bg-sky-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out" type="submit">
+                              Place Order
+                            </button>
+                        </div>
+                    </form>   
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    console.log(cart);
+    var sum = 0;
+    var totalPrice= 0;
+    if ($.isEmptyObject(cart)) {
+        // If object is empty
+        mystr = "<h4 class='font-semibold text-center text-2xl'>Your cart is empty, please add some items before checking out ! </h4>"
+        $('#items').append(mystr);
+        var hide1=document.getElementById('details');
+        var hide2=document.getElementById('price');
+        hide1.style.visibility='hidden';
+        hide2.style.visibility='hidden';
+    }
+    else {
+        for (item in cart) {
+
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            sum = sum + qty;
+            itemPrice =cart[item][2]
+            totalPrice= totalPrice + qty * itemPrice
+            mystr = `        <li class="flex justify-between p-3 font-medium">
+                ${name}
+                 <span class="px-2 py-1 text-sm text-blue-200 bg-blue-600 rounded-full">${qty}</span>
+                    </li>`
+            $('#items').append(mystr);
+        }
+    }
+    document.getElementById('cart').innerHTML = sum;
+    document.getElementById('totalPrice').innerHTML = totalPrice;
+    $('#itemsJson').val(JSON.stringify(cart));
+    {% if thank %}
+    alert('Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker');
+    localStorage.clear();
+    document.location = "/shop";
+    {% endif %}
+</script>
+{% endblock %}
